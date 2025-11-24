@@ -1,8 +1,9 @@
+
 <?php
+
 require_once "header.php";
 try {
   require_once 'assets_db.php';
-    $order = $_POST["order"]??"";
   $searchtxt = mysqli_real_escape_string($conn, $_POST["searchtxt"] ?? "");
   $sql = "select * from items";
   if ($searchtxt) {
@@ -38,11 +39,11 @@ try {
     <td><?=$row["available"]?></td>
     <td>
       <?php if ((int)$row['available'] > 0) { ?>
-        <a href="borrow.php?id=<?=htmlspecialchars($row['id'])?>" class="btn btn-primary">借用</a>
+<a href="borrow.php?item_id=<?= $row['id'] ?>" class="btn btn-primary">借用</a>
       <?php } else { ?>
-        <button class="btn btn-secondary" disabled>庫存不足，無法借用</button>
+        <button class="btn btn-secondary"  disabled>庫存不足，無法借用</button>
       <?php } ?>
-    </td>
+      </td>
 
  </tr>
 

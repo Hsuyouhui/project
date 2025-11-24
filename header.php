@@ -42,6 +42,9 @@ function nav_active($file) {
           <li class="nav-item">
             <a class="nav-link<?=nav_active('item.php')?>" href="item.php">公物借用</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link<?=nav_active('admin_borrow_record.php')?>" href="admin_borrow_record.php">借用紀錄</a>
+          </li>
      
 
           <!-- 根據使用者登入狀態顯示不同的連結 -->
@@ -50,7 +53,7 @@ function nav_active($file) {
               <a class="nav-link" href="logout.php">登出 (<?=$user_name?>)</a>
             </li>
           <?php else: ?>
-            <li class="nav-item">
+            <li class="nav-item" >
               <a class="nav-link<?=nav_active('login.php')?>" href="login.php">登入</a>
             </li>
           <?php endif; ?>

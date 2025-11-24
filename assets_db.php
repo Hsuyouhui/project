@@ -2,7 +2,7 @@
 $servername = "localhost";
 $dbname = "assets";
 $dbUsername = "root";
-$dbPassword = "";
+$dbPassword = "rita0987260901";
   $conn = mysqli_connect($servername, $dbUsername, $dbPassword, $dbname);
   // Check connection
 if ($conn->connect_error) {
