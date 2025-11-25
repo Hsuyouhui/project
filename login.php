@@ -4,11 +4,8 @@ session_start();
 include 'header.php'; 
 
 $users = [
-  "root"  => ["password" => "password", "name" => "管理員", "role" => "teacher"],
-  "user1" => ["password" => "pw1", "name" => "小明",   "role" => "student"],
-  "user2" => ["password" => "pw2", "name" => "小華",   "role" => "student"],
-  "user3" => ["password" => "pw3", "name" => "小美",   "role" => "student"],
-  "user4" => ["password" => "pw4", "name" => "小強",   "role" => "student"],
+  "root"  => ["password" => "password", "user_name" => "管理員", "role" => "admin"],
+  "user1" => ["password" => "pw1", "user_name" => "小明",   "role" => "user"],
 ];
 
 if ($_POST) {
@@ -16,20 +13,22 @@ if ($_POST) {
   $password = $_POST["password"] ?? "";
 
   if (isset($users[$account]) && $users[$account]["password"] === $password) {
-    $_SESSION["user_id"] = $account;
-    $_SESSION["user_name"] = $users[$account]["name"];
-    $_SESSION["user_role"] = $users[$account]["role"];
 
-    // 取得 redirect 參數，預設回首頁
-    $redirect = $_SESSION['redirect_to'] ?? 'index.php';  // 儲存登入前的頁面
-    unset($_SESSION['redirect_to']);  // 登入後清除 redirect_to
+    $_SESSION["user_id"] = $account;
+    $_SESSION["user_name"] = $users[$account]["user_name"]; // 修正這裡！
+    $_SESSION["role"] = $users[$account]["role"];
+
+    // 回到登入前所在頁面
+    $redirect = $_SESSION['redirect_to'] ?? 'index.php';
+    unset($_SESSION['redirect_to']);
 
     header("Location: $redirect");
     exit;
   } else {
-    header("Location: login.php?msg=帳號或密碼錯誤" . (isset($_GET['redirect']) ? '&redirect=' . urlencode($_GET['redirect']) : ''));
+    header("Location: login.php?msg=帳號或密碼錯誤");
     exit;
   }
+
 } else {
   $msg = $_GET["msg"] ?? "";
 ?>

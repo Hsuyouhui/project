@@ -37,7 +37,7 @@ function nav_active($file) {
             <a class="nav-link<?=nav_active('index.php')?>" href="index.php">首頁</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link<?=nav_active('status.php')?>" href="status.php">包裹資料</a>
+            <a class="nav-link<?=nav_active('package.php')?>" href="package.php">包裹資料</a>
           </li>
           <li class="nav-item">
             <a class="nav-link<?=nav_active('item.php')?>" href="item.php">公物借用</a>
