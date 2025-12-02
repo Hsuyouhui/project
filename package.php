@@ -1,4 +1,7 @@
+<?php
 
+require_once "header.php";
+?>
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -72,4 +75,8 @@ body {
 
 </body>
 </html>
+<?php
+ 
+require_once "footer.php";
+?>
 
