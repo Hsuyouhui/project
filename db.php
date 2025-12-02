@@ -17,3 +17,17 @@ try {
     die("資料庫連線失敗：" . $e->getMessage());
 }
 ?>
+<script>
+function toggleAbout(show) {
+    const about = document.getElementById('about-section');
+    if(show){
+        about.style.display = 'block';
+        setTimeout(() => {
+            about.scrollIntoView({behavior:'smooth'});
+        }, 100);
+    } else {
+        about.style.display = 'none';
+        window.scrollTo({top:0, behavior:'smooth'});
+    }
+}
+</script>

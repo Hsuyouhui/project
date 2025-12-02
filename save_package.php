@@ -1,6 +1,5 @@
 <?php
-require 'db.php';
-require_once "header.php"; 
+require 'db.php'; 
 
 
 $room_number = $_POST['room_number'];
@@ -17,7 +16,8 @@ $stmt->execute([
 ]);
 
 echo "包裹新增成功！<br>";
-echo "<a href='index.php'>返回新增頁面</a>";
+echo "<a href='package.php'>返回新增頁面</a>";
+header("Location: package.php?success=1");
+exit;
+
 ?>
-<?php
-require_once "footer.php"?>
