@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-11-24 18:04:05
+-- 產生時間： 2025-12-08 17:53:02
 -- 伺服器版本： 8.0.43
 -- PHP 版本： 8.2.12
 
@@ -48,7 +48,8 @@ INSERT INTO `borrow_records` (`record_id`, `item_id`, `user_id`, `user_name`, `e
 (3, 1, NULL, '王小明', '22635656@gmail.com', '2025-11-24 01:55:40', '2025-11-28', NULL, '借出'),
 (4, 1, NULL, '王小明', '22635656@gmail.com', '2025-11-25 00:07:44', '2025-12-04', NULL, '借出'),
 (9, 2, NULL, '王小明', '22635656@gmail.com', '2025-11-25 00:51:33', '2025-11-29', NULL, '借出'),
-(10, 7, NULL, '王小明', '22635656@gmail.com', '2025-11-25 00:52:11', '2025-11-29', NULL, '借出');
+(10, 7, NULL, '王小明', '22635656@gmail.com', '2025-11-25 00:52:11', '2025-11-29', NULL, '借出'),
+(11, 12, NULL, '李燦', '413401443@m365.fju.edu.tw', '2025-12-08 23:27:28', '2025-12-18', NULL, '借出');
 
 -- --------------------------------------------------------
 
@@ -74,7 +75,7 @@ INSERT INTO `items` (`id`, `name`, `total`, `available`, `status`) VALUES
 (3, '掃把', 4, 4, '在庫'),
 (4, '拖把', 4, 0, '借出'),
 (7, '安全帽', 3, 2, '在庫'),
-(10, '冰箱', 3, 3, '在庫');
+(12, '冰箱', 3, 2, '在庫');
 
 -- --------------------------------------------------------
 
@@ -87,16 +88,17 @@ CREATE TABLE `users` (
   `user_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` enum('admin','user') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `account` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `account` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- 傾印資料表的資料 `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `role`, `password`, `account`) VALUES
-(1, '管理員', 'admin', 'password', 'root'),
-(2, '小明', 'user', 'pw1', 'user1');
+INSERT INTO `users` (`user_id`, `user_name`, `role`, `password`, `account`, `email`) VALUES
+(1, '管理員', 'admin', '$2y$10$8s0xfhXRikL9LWvvn66CyOGYc6bgXW6e.hoG4jlfPtJbRtEFAJbEW', 'root', '22635656@gmail.com'),
+(2, '李燦', 'user', '$2y$10$BJRHw71vfZaCyRRBiAKl9uc.D786wAjiRr5/8ss2s0BYvkcyMNXF.', '413401467', '413401443@m365.fju.edu.tw');
 
 --
 -- 已傾印資料表的索引
@@ -130,19 +132,19 @@ ALTER TABLE `users`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `borrow_records`
 --
 ALTER TABLE `borrow_records`
-  MODIFY `record_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `record_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- 已傾印資料表的限制式

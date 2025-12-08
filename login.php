@@ -1,66 +1,53 @@
 <?php
-session_start();
+session_start(); 
+require_once "header.php";
+$msg = $_GET["msg"] ?? "";
+require_once "assets_db.php";  // 不能輸出 HTML
 
-include 'header.php'; 
-require_once 'assets_db.php';
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-if ($_POST) {
-  $account = $_POST["account"] ?? "";
-  $password = $_POST["password"] ?? "";
+    $account = $_POST["account"] ?? "";
+    $input_password = $_POST["password"] ?? "";
 
-  // 透過 DB 查詢帳號
-  $sql = "SELECT user_id, user_name, password, role FROM users WHERE account = ? LIMIT 1";
-  $stmt = mysqli_prepare($conn, $sql);
-  if (!$stmt) {
-    $msg = "資料庫錯誤：" . mysqli_error($conn);
-  } else {
+    // 建立 prepared statement
+    $sql = "SELECT user_id, user_name, password, role FROM users WHERE account = ? LIMIT 1";
+    $stmt = mysqli_prepare($conn, $sql);
+
+    if (!$stmt) {
+        header("Location: login.php?msg=系統錯誤");
+        exit;
+    }
+
     mysqli_stmt_bind_param($stmt, "s", $account);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $db_user_id, $db_user_name, $db_password, $db_role);
+
+    // 綁定查詢結果
+    $user_id = $user_name = $db_password = $role = null;
+    mysqli_stmt_bind_result($stmt, $user_id, $user_name, $db_password, $role);
+
     if (mysqli_stmt_fetch($stmt)) {
-      $authenticated = false;
-      // 支援已經以 password_hash() 儲存的密碼
-      if (password_verify($password, $db_password)) {
-        $authenticated = true;
-      } else {
-        // 若 DB 中是明文（舊資料），嘗試直接比對；若比對成功，立即用 password_hash 重新加密並更新 DB
-        if ($password === $db_password) {
-          $authenticated = true;
-          $newHash = password_hash($password, PASSWORD_DEFAULT);
-          $updateSql = "UPDATE users SET password = ? WHERE user_id = ?";
-          $updateStmt = mysqli_prepare($conn, $updateSql);
-          if ($updateStmt) {
-            mysqli_stmt_bind_param($updateStmt, "si", $newHash, $db_user_id);
-            mysqli_stmt_execute($updateStmt);
-            mysqli_stmt_close($updateStmt);
-          }
+
+        // 用 password_verify() 驗證
+        if (password_verify($input_password, $db_password)) {
+
+            $_SESSION["user_id"] = $user_id;
+            $_SESSION["user_name"] = $user_name;
+            $_SESSION["role"] = $role;
+
+            mysqli_stmt_close($stmt);
+            header("Location: index.php");
+            exit;
+        } else {
+            mysqli_stmt_close($stmt);
+            header("Location: login.php?msg=帳密錯誤");
+            exit;
         }
-      }
-
-      if ($authenticated) {
-        $_SESSION["user_id"] = $db_user_id;
-        $_SESSION["user_name"] = $db_user_name;
-        $_SESSION["role"] = $db_role;
-
-        // 回到登入前所在頁面
-        $redirect = $_SESSION['redirect_to'] ?? 'index.php';
-        unset($_SESSION['redirect_to']);
-
-        header("Location: $redirect");
-        exit;
-      } else {
-        header("Location: login.php?msg=帳號或密碼錯誤");
-        exit;
-      }
     } else {
-      header("Location: login.php?msg=帳號或密碼錯誤");
-      exit;
+        mysqli_stmt_close($stmt);
+        header("Location: login.php?msg=帳密錯誤");
+        exit;
     }
-    mysqli_stmt_close($stmt);
-  }
-
-} else {
-  $msg = $_GET["msg"] ?? "";
+}
 ?>
 <div class="container mt-5">
   <div class="row justify-content-center">
@@ -79,19 +66,14 @@ if ($_POST) {
             </div>
             <button type="submit" class="btn btn-primary w-100">登入</button>
             <a href="register.php">註冊帳號密碼</a>
-
           </form>
 
           <?php if (!empty($msg)): ?>
             <div class="alert alert-danger mt-3"><?=htmlspecialchars($msg)?></div>
           <?php endif; ?>
-
         </div>
       </div>
     </div>
   </div>
 </div>
-<?php 
-}
-include 'footer.php'; 
-?>
+<?php include 'footer.php'; ?>

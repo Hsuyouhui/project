@@ -1,4 +1,13 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// 如果未登入，導向 login
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php");
+    exit;
+}
 require_once "header.php";
 require_once 'assets_db.php';
 $msg = "";
