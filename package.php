@@ -1,7 +1,4 @@
-<?php
 
-require_once "header.php";
-?>
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -25,16 +22,16 @@ body {
 
 <div class="container my-5">
 
-    <!-- 頁面標題 -->
+   
     <h2 class="mb-4">包裹管理</h2>
 
-    <!-- 成功訊息（如果剛新增完） -->
+   
     <?php if (isset($_GET['success'])): ?>
         <div class="alert alert-info text-center">包裹新增成功！</div>
     <?php endif; ?>
 
 
-    <!-- 搜尋功能 -->
+  
     <h5 class="mb-3 mt-4">搜尋包裹</h5>
 
     <form action="search_package.php" method="GET" class="row g-3 mb-4">
@@ -70,13 +67,25 @@ body {
 
         </form>
     </div>
+    <div class="card p-4 mt-4">
+    <h5 class="mb-3">更新包裹狀態（已領取）</h5>
 
+    <form action="update_status.php" method="POST" class="row g-3">
+
+        <div class="col-md-12">
+            <label class="form-label">包裹 ID：</label>
+            <input type="number" class="form-control" name="package_id" required>
+        </div>
+
+        <div class="col-12">
+            <button class="btn btn-primary w-100">更新為已領取</button>
+        </div>
+
+    </form>
 </div>
+</div>
+
 
 </body>
 </html>
-<?php
- 
-require_once "footer.php";
-?>
 

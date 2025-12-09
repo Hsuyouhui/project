@@ -57,6 +57,7 @@ $results = $stmt->fetchAll();
                 <th>收件人</th>
                 <th>到件時間</th>
                 <th>狀態</th>
+                <th>是否領取</th>
             </tr>
         </thead>
         <tbody>
@@ -67,12 +68,14 @@ $results = $stmt->fetchAll();
                 <td><?= $row["recipient_name"] ?></td>
                 <td><?= $row["delivered_at"] ?></td>
                 <td><?= $row["status"] ?></td>
+                <td><?= $row["pickup_at"] ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
 
 </div>
+
 
 <script>
 $(document).ready(function() {
